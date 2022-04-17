@@ -68,10 +68,10 @@ def get_route(hostname):
     timeLeft = TIMEOUT
     tracelist1 = [] #This is your list to use when iterating through each trace 
     tracelist2 = [] #This is your list to contain all traces
+    destAddr = gethostbyname(hostname)
 
     for ttl in range(1,MAX_HOPS):
         for tries in range(TRIES):
-            destAddr = gethostbyname(hostname)
 
             #Fill in start
             # Make a raw socket named mySocket
@@ -136,7 +136,7 @@ def get_route(hostname):
                     tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
                     tracelist1.insert(-1, addr[0])
                     tracelist2.append(tracelist1)
-                    #You should add your responses to your lists here 
+                    #You should add your responses to your lists here
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
@@ -146,6 +146,7 @@ def get_route(hostname):
                     tracelist1.insert(-1, addr[0])
                     tracelist2.append(tracelist1)
                     #You should add your responses to your lists here and return your list if your destination IP is met
+                    return tracelist2
                     #Fill in end
                 else:
                     #Fill in start
