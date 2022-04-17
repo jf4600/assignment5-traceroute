@@ -146,7 +146,7 @@ def get_route(hostname):
                     tracelist1.insert(-1, addr[0])
                     tracelist2.append(tracelist1)
                     #You should add your responses to your lists here and return your list if your destination IP is met
-                    return
+                    return tracelist2
                     #Fill in end
                 else:
                     #Fill in start
