@@ -60,7 +60,7 @@ def build_packet():
     #Fill in end
 
     # So the function ending should look like this
-
+    icmpHead = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, packID, 1)
     packet = icmpHead + dataTime
     return packet
 
@@ -107,8 +107,8 @@ def get_route(hostname):
             else:
                 #Fill in start
                 #Fetch the icmp type from the IP packet
-                icmpHead = recPacket[20:28]
-                types, code, checksum, packID, sequence = struct.unpack("bbHHh", icmpHead)
+                header = recPacket[20:28]
+                types, code, checksum, packID, sequence = struct.unpack("bbHHh", header)
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
@@ -138,6 +138,8 @@ def get_route(hostname):
                     #You should add your responses to your lists here
                     #Fill in end
                 elif types == 0:
+                    #tracelist1 = [str(ttl), str((timeReceived - timeSent) * 1000) + "ms", addr[0], host]
+                    #everywhere you have tracelist1.append   - change to tracelist1 = [....]  and then do a tracelist2.append(tracelist1)
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recPacket[28:28 + bytes])[0]
                     #Fill in start
@@ -146,6 +148,8 @@ def get_route(hostname):
                     tracelist2.append(tracelist1)
                     #You should add your responses to your lists here and return your list if your destination IP is met
                     print(tracelist2)
+                    #should look like
+                    #[[str(ttl), str(delaytime), ip, hostname], ["Timeout Recieved"],[str(ttl), str(delaytime), ip, hostname].....]
                     return tracelist2
                     #Fill in end
                 else:
